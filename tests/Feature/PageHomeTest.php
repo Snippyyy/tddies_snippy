@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Course;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use function Pest\Laravel\get;
 
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
-it('shows courses overview', function (){
+it('shows courses overview', function () {
     //Los test tienen 3 secciones -->
     //Arrange
 
@@ -19,17 +19,17 @@ it('shows courses overview', function (){
     Course::factory()->create([
         'title' => 'Course A',
         'description' => 'Description Course A',
-        'released_at' => Carbon::now()
+        'released_at' => Carbon::now(),
     ]);
     Course::factory()->create([
         'title' => 'Course B',
         'description' => 'Description Course B',
-        'released_at' => Carbon::now()
+        'released_at' => Carbon::now(),
     ]);
     Course::factory()->create([
         'title' => 'Course C',
         'description' => 'Description Course C',
-        'released_at' => Carbon::now()
+        'released_at' => Carbon::now(),
     ]);
 
     //Act                    //Assert
@@ -42,14 +42,12 @@ it('shows courses overview', function (){
         $thirdCourse->description,
     ]);
 
-
 });
 
-it('shows only released courses', function (){
+it('shows only released courses', function () {
     //Arrange
     $releasedCourse = Course::factory()->released()->create();
     $notReleasedCourse = Course::factory()->create();
-
 
     //Act                       //Assert
     get(route('home'))->assertSeeText([
@@ -58,12 +56,9 @@ it('shows only released courses', function (){
         $notReleasedCourse->title,
     ]);
 
-
-
-
 });
 
-it('shows courses by release date', function (){
+it('shows courses by release date', function () {
 
     $releasedCourse = Course::factory()->released(Carbon::yesterday())->create();
     $newestReleasedCourse = Course::factory()->released()->create();
@@ -72,10 +67,6 @@ it('shows courses by release date', function (){
         assertSeeTextInOrder([
             $newestReleasedCourse->title,
             $releasedCourse->title,
-    ]);
-
-
+        ]);
 
 });
-
-
